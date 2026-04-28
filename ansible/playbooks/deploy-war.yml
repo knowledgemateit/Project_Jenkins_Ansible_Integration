@@ -1,0 +1,11 @@
+---
+- name: Deploy PollApp WAR
+  hosts: agent_nodes
+  tasks:
+    - name: Copy WAR to Slave host
+      copy:
+        src: "{{ war_path }}"
+        dest: "/tmp/PollApp.war"
+
+    - name: Hot Deploy WAR into Container
+      shell: "docker cp /tmp/PollApp.war tomcat-prod:/usr/local/tomcat/webapps/PollApp.war"
