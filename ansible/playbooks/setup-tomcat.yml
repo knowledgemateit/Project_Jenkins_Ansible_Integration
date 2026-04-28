@@ -1,0 +1,34 @@
+---
+- name: Setup Tomcat Infrastructure
+  hosts: agent_nodes
+  become: yes
+  tasks:
+    - name: Ensure Tomcat Container is Running
+      docker_container:
+        name: "tomcat-prod"
+        image: tomcat:10.1-jdk17-corretto
+        state: started
+        restart_policy: always
+        published_ports: ["8080:8080"]
+        memory: "512m"
+        env:
+          JAVA_OPTS: "-Xms256m -Xmx256m"
+
+    - name: Enable Manager Tools and Configurations
+      shell: |
+        docker exec tomcat-prod [ -d /usr/local/tomcat/webapps.dist/manager ] && \
+        docker exec tomcat-prod cp -r /usr/local/tomcat/webapps.dist/. /usr/local/tomcat/webapps/ || echo "Already moved"
+
+    - name: Deploy tomcat-users and context configurations
+      copy:
+        content: "{{ item.content }}"
+        dest: "{{ item.dest }}"
+      loop:
+        - { dest: "/tmp/tomcat-users.xml", content: "<tomcat-users><role rolename='manager-script'/><user username='admin' password='admin123' roles='manager-script'/></tomcat-users>" }
+        - { dest: "/tmp/context.xml", content: "<?xml version='1.0' encoding='UTF-8'?><Context privileged='true' ><CookieProcessor sameSiteCookies='strict' /></Context>" }
+
+    - name: Sync Configs to Container
+      shell: "docker cp {{ item.src }} tomcat-prod:{{ item.dest }}"
+      loop:
+        - { src: "/tmp/tomcat-users.xml", dest: "/usr/local/tomcat/conf/tomcat-users.xml" }
+        - { src: "/tmp/context.xml", dest: "/usr/local/tomcat/webapps/manager/META-INF/context.xml" }
