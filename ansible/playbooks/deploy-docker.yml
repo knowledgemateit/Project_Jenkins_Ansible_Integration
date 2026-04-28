@@ -1,0 +1,16 @@
+---
+- name: Deploy PollApp to Docker on Slave Agent
+  hosts: agent_nodes
+  tasks:
+    - name: Copy WAR from Master to Slave Temporary Folder
+      copy:
+        src: "{{ war_path }}"
+        dest: "/tmp/PollApp.war"
+        mode: '0755'
+
+    - name: Copy WAR from Slave Host into Tomcat Container
+      shell: "docker cp /tmp/PollApp.war tomcat-prod:/usr/local/tomcat/webapps/PollApp.war"
+
+    - name: Restart Tomcat to apply changes
+      shell: "docker exec tomcat-prod /usr/local/tomcat/bin/catalina.sh stop && docker exec tomcat-prod /usr/local/tomcat/bin/catalina.sh start"
+      ignore_errors: yes
