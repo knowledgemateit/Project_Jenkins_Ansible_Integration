@@ -33,6 +33,44 @@ chmod 600 ~/.ssh/authorized_keys
 
 ssh -i /home/jenkins/.ssh/id_rsa jenkins@3.64.127.91
 
-Global SSH Trust: On the Master, edit /etc/ansible/ansible.cfg and set:
 
-host_key_checking = False
+### Phase 3: Jenkins UI Configuration (Web Dashboard)
+
+Add Credentials: Manage Jenkins > Credentials > Global > Add Credentials
+
+Kind: SSH Username with private key
+
+ID: slave-ssh-key
+
+Username: jenkins
+
+Private Key: Paste the content of ~/.ssh/id_rsa_jenkins from the Master.
+
+Create the Node: Manage Jenkins > Nodes > New Node
+
+Name: Slave-01
+
+Remote root directory: /home/jenkins
+
+Launch Method: Launch agents via SSH
+
+Host: 172.31.47.211
+
+Credentials: slave-ssh-key
+
+Host Key Verification: Non-verifying Verification Strategy.
+
+JVM settings: -Djava.io.tmpdir=/home/jenkins/tmp
+
+
+SRE Optimization (Crucial for t2.micro/Small Disks):
+
+Navigate to Nodes > Configure Monitors.
+
+Change Free Disk Space and Free Temp Space thresholds from 1GiB to 200MiB. This prevents Jenkins from marking the node as "Offline" due to low disk space common in cloud environments.
+
+mkdir /home/jenkins/tmp
+
+sudo chown jenkins:jenkins /home/jenkins/tmp
+
+chmod 755 /home/jenkins/tmp
