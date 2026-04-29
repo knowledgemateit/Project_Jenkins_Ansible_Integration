@@ -19,11 +19,19 @@ chmod 600 /home/jenkins/.ssh/id_rsa
 On the Slave (as jenkins): Authorize the Master's key.
 # Copy the output of 'cat /home/jenkins/.ssh/id_rsa.pub' from Master
 # Then on Slave:
-mkdir -p ~/.ssh
+sudo dnf install java-21-amazon-corretto-devel maven -y
 
-echo "PASTE_MASTER_PUB_KEY_HERE" >> ~/.ssh/authorized_keys
+sudo useradd -m jenkins
+
+sudo su - jenkins
+
+mkdir -p ~/.ssh && chmod 700 ~/.ssh
+
+echo "PASTE_PUBLIC_KEY_HERE" >> ~/.ssh/authorized_keys
 
 chmod 600 ~/.ssh/authorized_keys
+
+ssh -i /home/jenkins/.ssh/id_rsa jenkins@3.64.127.91
 
 Global SSH Trust: On the Master, edit /etc/ansible/ansible.cfg and set:
 
