@@ -74,3 +74,18 @@ mkdir /home/jenkins/tmp
 sudo chown jenkins:jenkins /home/jenkins/tmp
 
 chmod 755 /home/jenkins/tmp
+
+
+-----------------------------------
+Master:
+
+sudo dnf install ansible -y
+
+Agent:
+
+sudo dnf install docker -y
+
+sudo systemctl start docker
+
+sudo systemctl enable docker
+
