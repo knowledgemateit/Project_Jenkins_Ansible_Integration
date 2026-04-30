@@ -19,6 +19,10 @@ sudo dnf install jenkins -y
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
 
+sudo yum install -y yum-utils shadow-utils
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+sudo yum install terraform -y
+
 Temp folder issue fix:
 sudo mkdir -p /etc/systemd/system/jenkins.service.d/
 
