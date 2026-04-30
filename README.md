@@ -51,6 +51,10 @@ sudo systemctl start docker
 
 sudo systemctl enable docker
 
+sudo usermod -aG docker jenkins
+
+sudo systemctl restart docker
+
 visudo
 jenkins ALL:(ALL) NOPASSWD:ALL
 
