@@ -12,6 +12,9 @@ pipeline {
 
         stage('Infrastructure Setup') {
             agent { label 'built-in' }
+            environment {
+              ANSIBLE_HOST_KEY_CHECKING = 'False'
+               }
             steps {
                 // Only run this if the container is down or config changed
                 ansiblePlaybook(
