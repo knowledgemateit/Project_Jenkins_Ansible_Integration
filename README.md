@@ -1,5 +1,7 @@
 # Project_Jenkins_Ansible_Integration
 
+Create two server (4gb Ram,Amazon Linux,30GB Disk)
+
 **Master:**
 
 sudo dnf install java-21-amazon-corretto-devel maven git -y
