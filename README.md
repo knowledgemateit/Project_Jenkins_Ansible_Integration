@@ -97,7 +97,7 @@ ID: slave-ssh-key
 
 Username: jenkins
 
-Private Key: Paste the content of ~/.ssh/id_rsa_jenkins from the Master.
+Private Key: Paste the content of /home/jenkins/.ssh/id_rsa from the Master.
 
 **Create the Node**: Manage Jenkins > Nodes > New Node
 
