@@ -124,3 +124,13 @@ chmod 755 /home/jenkins/tmp
 Navigate to Nodes > Configure Monitors.
 
 Change Free Disk Space and Free Temp Space thresholds from 1GiB to 200MiB. This prevents Jenkins from marking the node as "Offline" due to low disk space common in cloud environments.
+
+-------------------
+Install Ansible Plugin in Jenkins master
+
+Add that as tool in ansible-latest
+**Name  **ansible-latest
+**Path to ansible executables directory **  : /usr/bin
+
+
+
