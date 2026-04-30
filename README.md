@@ -51,6 +51,9 @@ sudo systemctl start docker
 
 sudo systemctl enable docker
 
+visudo
+jenkins ALL:(ALL) NOPASSWD:ALL
+
 -----------------------------------------------------------
 
 ## Phase 1: Infrastructure & SSH Setup
